@@ -129,16 +129,13 @@ export default async function handler(req, res) {
                     }
                 });
                 todayPage = newPage;
-                // добавить лекцию дня
                 const lectures = await notionRequest(`databases/${ids.lectures}/query`, 'POST', {
                     filter: { property: 'Пройдена', checkbox: { equals: false } }
                 });
                 if (lectures.results.length) {
                     const lectId = lectures.results[0].id;
                     await notionRequest(`pages/${todayPage.id}`, 'PATCH', {
-                        properties: {
-                            'Лекция дня': { relation: [{ id: lectId }] }
-                        }
+                        properties: { 'Лекция дня': { relation: [{ id: lectId }] } }
                     });
                     await notionRequest(`pages/${lectId}`, 'PATCH', {
                         properties: { 'Пройдена': { checkbox: true } }
@@ -184,7 +181,7 @@ export default async function handler(req, res) {
             }
             const weekPercent = totalPercent / 7;
             const todayPercent = weekDays.find(d => d.dateNum === new Date().getDate())?.percent || 0;
-            const monthPercent = weekPercent; // упрощённо
+            const monthPercent = weekPercent;
             const lectureToday = weekDays.find(d => d.dateNum === new Date().getDate())?.lecture || null;
             const todayDoneIds = todayPage ? todayPage.properties.Сделано.relation.map(r => r.id) : [];
 
