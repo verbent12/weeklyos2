@@ -1,6 +1,11 @@
 {
+  "functions": {
+    "api/notion.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/api/(.*)", "dest": "/api/notion" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
